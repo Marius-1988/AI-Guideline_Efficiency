@@ -1,0 +1,1037 @@
+"Issue Type";"Issue Key";"Summary";"Description"
+"Story";"ROL-01";"Entrar a la pantalla de inicio de mi rol";"Como usuario de la web de Flexxus
+quiero entrar directamente a la pantalla de inicio de mi rol
+para empezar mi tarea sin recorrer el menú del ERP
+
+Valor de negocio: Es el cambio central de pantallas a intenciones: cada perfil arranca en su propio ambiente, como pidió Flexxus el 21-10 [29:19].
+
+Escenarios fuente:
+RF-29 | El sistema dirige al usuario a la pantalla de inicio de su experiencia: Vendedor → Inicio del vendedor; Administrativo → Inicio administrativo. Sin atributo de experiencia, la infiere según la regla de S-15
+
+Criterios de aceptación:
+1. [Feliz] Un usuario con experiencia «Vendedor» entra, al iniciar sesión, al Inicio del vendedor (V-01).
+2. [Feliz] Un usuario con experiencia «Administrativo» entra al Inicio administrativo (V-11).
+3. [Alternativo] Un perfil sin el atributo recibe la experiencia inferida según RN-02.
+4. [Error] Un usuario sin perfil ni permisos no entra a ninguna experiencia y ve MSG-01: ""Tu usuario no tiene un perfil de acceso configurado. Pedile al administrador que te asigne uno.""
+5. [Validación] Recargar la página o volver a abrir la web mantiene la experiencia hasta cerrar sesión.
+
+Escenarios BDD (Gherkin):
+Característica: Inicio según el rol
+  Como usuario quiero entrar a mi inicio para empezar mi tarea sin recorrer el menú.
+
+  Escenario: Vendedor entra a su inicio
+    Dado que mi perfil tiene la experiencia ""Vendedor""
+    Cuando inicio sesión
+    Entonces veo el Inicio del vendedor
+    Y no veo el menú lateral
+
+  Escenario: Experiencia inferida
+    Dado que mi perfil no tiene experiencia configurada
+    Y tiene el permiso 003 y ningún menú administrativo
+    Cuando inicio sesión
+    Entonces veo el Inicio del vendedor
+
+  Escenario: Usuario sin perfil
+    Dado que mi usuario no tiene perfil ni permisos
+    Cuando inicio sesión
+    Entonces veo el mensaje MSG-01: ""Tu usuario no tiene un perfil de acceso configurado. Pedile al administrador que te asigne uno.""
+
+Fuera de alcance:
+- Selector de modo para usuarios con las dos experiencias (§10, SUP-10).
+- Configurar la experiencia desde la web (se hace en el ERP, T-01).
+
+Notas / preguntas abiertas:
+- Menús administrativos (S-02): todos los ítems del menú lateral, de la barra superior y del encabezado, salvo el carrito.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-ROL-01 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ROL-02";"Navegar como Vendedor sin el menú del ERP";"Como vendedor
+quiero ver solo las pantallas de mi tarea de venta
+para no perder tiempo ni confundirme con módulos que no uso
+
+Valor de negocio: Hoy el vendedor ve 7 pestañas de módulo y el menú lateral, y la venta es una pestaña más [15:32] (PRD H-27). Quitarlos reduce la carga visual y los errores de navegación.
+
+Escenarios fuente:
+RF-30 | El Vendedor no ve pestañas de módulo ni el menú lateral; el Administrativo no ve la pantalla Venta ni el ícono de carrito
+
+Criterios de aceptación:
+1. [Feliz] El Vendedor no ve las pestañas Archivos, Ventas, Compras, Fondos, Stock, Configuración y Usuarios, ni el menú lateral.
+2. [Feliz] Desde cualquier vista del Vendedor (V-02 a V-07) hay un acceso visible a su inicio.
+3. [Error] Si el Vendedor abre una URL de módulo (por ejemplo `/comprobantes` de todos los usuarios o `/cuentacorriente`), el sistema lo lleva a su inicio y muestra MSG-02: ""Esta sección no está disponible para tu perfil. Te llevamos a tu inicio."" (RN-04).
+4. [Validación] La pantalla Venta se abre como pantalla principal, no como pestaña dentro de otra pantalla.
+
+Escenarios BDD (Gherkin):
+Característica: Navegación del Vendedor
+  Escenario: Sin menú del ERP
+    Dado que inicié sesión como Vendedor
+    Cuando estoy en cualquier pantalla
+    Entonces no veo las pestañas de módulo ni el menú lateral
+
+  Escenario: URL de módulo no permitida
+    Dado que inicié sesión como Vendedor
+    Cuando abro la dirección de la gestión de cuentas corrientes
+    Entonces veo mi inicio
+    Y veo el mensaje MSG-02: ""Esta sección no está disponible para tu perfil. Te llevamos a tu inicio.""
+
+Fuera de alcance:
+- Las vistas del viajante y del usuario de consulta.
+
+Notas / preguntas abiertas:
+- Cerrar sesión y datos del usuario siguen en la barra superior.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ROL-03";"Operar como Administrativo sin la pantalla de venta";"Como administrativo
+quiero trabajar desde el menú lateral sin la pantalla de venta de mostrador
+para enfocarme en gestionar lo que generó el equipo de venta
+
+Valor de negocio: Evita la doble funcionalidad (carrito y «Crear factura» para lo mismo) que confunde al back office [30:39–31:26].
+
+Escenarios fuente:
+RF-30 | El Vendedor no ve pestañas de módulo ni el menú lateral; el Administrativo no ve la pantalla Venta ni el ícono de carrito
+
+Criterios de aceptación:
+1. [Feliz] El Administrativo no ve el ícono de carrito de la barra superior ni accesos a la pantalla Venta.
+2. [Error] Si abre la URL de la venta (`/carrito`), el sistema lo lleva a su inicio y muestra MSG-02: ""Esta sección no está disponible para tu perfil. Te llevamos a tu inicio.""
+3. [Validación] El menú lateral sigue mostrando solo los ítems disponibles de su perfil.
+
+Escenarios BDD (Gherkin):
+Característica: Administrativo sin venta de mostrador
+  Escenario: Sin ícono de carrito
+    Dado que inicié sesión como Administrativo
+    Cuando veo la barra superior
+    Entonces no veo el ícono de carrito
+
+  Escenario: URL de venta no permitida
+    Dado que inicié sesión como Administrativo
+    Cuando abro la dirección de la venta
+    Entonces veo mi inicio
+    Y veo el mensaje MSG-02: ""Esta sección no está disponible para tu perfil. Te llevamos a tu inicio.""
+
+Fuera de alcance:
+- El contenido del menú acotado (ADM-02).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ROL-04";"Ver solo los tipos de comprobante que mi perfil permite";"Como vendedor
+quiero ver solo los tipos de comprobante que tengo habilitados
+para no intentar emitir algo que mi perfil no permite
+
+Valor de negocio: Diferencia al vendedor-cajero (factura) del vendedor de salón (presupuestos y pedidos) con la misma experiencia [35:16–35:34].
+
+Escenarios fuente:
+RF-31 | El Vendedor solo ve los tipos de comprobante habilitados en su perfil (002 a 005), con el marcado «por defecto» preseleccionado
+
+Criterios de aceptación:
+1. [Feliz] «Iniciar como» del inicio y «Enviar como» de la venta muestran solo los tipos con permiso 002 a 005 (RN-06).
+2. [Feliz] El tipo marcado «por defecto» en el perfil aparece preseleccionado.
+3. [Alternativo] Con un solo tipo habilitado, no se muestra el selector y la venta usa ese tipo.
+4. [Error] Sin ningún tipo habilitado, «Nueva venta» queda deshabilitada y se muestra MSG-03: ""Tu perfil no tiene habilitado ningún tipo de comprobante. Pedile al administrador que lo configure.""
+
+Escenarios BDD (Gherkin):
+Característica: Tipos de comprobante por perfil
+  Escenario: Vendedor de salón
+    Dado que mi perfil tiene los permisos 003 y 004 y no el 002
+    Cuando veo ""Iniciar como""
+    Entonces veo ""Pedido"" y ""Presupuesto""
+    Y no veo ""Factura""
+
+  Escenario: Perfil sin tipos de comprobante
+    Dado que mi perfil no tiene permisos 002 a 005
+    Cuando veo mi inicio
+    Entonces ""Nueva venta"" está deshabilitada
+    Y veo el mensaje MSG-03: ""Tu perfil no tiene habilitado ningún tipo de comprobante. Pedile al administrador que lo configure.""
+
+Fuera de alcance:
+- Cambiar los permisos (se hace en el ERP).
+
+Notas / preguntas abiertas:
+- Hoy, sin permisos cargados en la base, Factura queda habilitada por defecto (`permissionDefaults.ts`). Se mantiene ese comportamiento para no romper instalaciones sin configurar.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-01";"Ver el contexto de mi puesto al iniciar";"Como vendedor
+quiero ver en mi inicio la sucursal, el punto de venta, el depósito y la caja con los que estoy operando
+para confirmar dónde estoy vendiendo antes de emitir
+
+Valor de negocio: Evita emitir en un punto de venta o depósito equivocado, un error fiscal y de stock difícil de revertir.
+
+Escenarios fuente:
+RF-32 | El inicio muestra el contexto del puesto: usuario, sucursal, punto de venta (electrónico o controlador fiscal), depósito y caja
+
+Criterios de aceptación:
+1. [Feliz] El inicio muestra nombre del usuario, sucursal, punto de venta con su tipo (electrónico o controlador fiscal), depósito y caja.
+2. [Alternativo] Si el usuario no tiene caja asignada, la zona lo indica sin bloquear presupuestos ni pedidos.
+3. [Error] Si el contexto no carga, se muestra MSG-20: ""No pudimos cargar esta sección. Reintentá en unos segundos."" y el resto del inicio sigue disponible.
+
+Escenarios BDD (Gherkin):
+Característica: Contexto del puesto
+  Escenario: Contexto completo
+    Dado que inicié sesión como Vendedor en la sucursal ""Centro"", punto de venta 0001 electrónico, depósito ""01"" y caja ""2""
+    Cuando veo mi inicio
+    Entonces veo ""Sucursal Centro · PV 0001 (electrónico) · Depósito 01 · Caja 2""
+
+Fuera de alcance:
+- Cambiar de sucursal, depósito o caja desde el inicio.
+
+Notas / preguntas abiertas:
+- Los datos ya existen en la sesión (`checkout_name`, `warehouse_name`, `pos_name`); falta el tipo de punto de venta (HT-ROL-01).
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-02";"Buscar artículo o cliente desde el inicio";"Como vendedor
+quiero un único buscador que encuentre artículos y clientes
+para empezar la venta por el producto o por el cliente sin elegir antes una pantalla
+
+Valor de negocio: Una venta en mostrador arranca de dos maneras: «busco el producto» o «atiendo a este cliente». Un solo buscador cubre las dos.
+
+Escenarios fuente:
+RF-33 | El inicio ofrece un buscador único que encuentra artículos (código, descripción, código de barras) y clientes (nombre, código, DNI, CUIT), y un acceso «Nueva venta»
+
+Criterios de aceptación:
+1. [Feliz] Al escribir al menos 3 caracteres, se muestran resultados agrupados en «Artículos» y «Clientes».
+2. [Feliz] Leer un código de barras con el escáner muestra el artículo exacto como primer resultado.
+3. [Alternativo] Elegir un cliente abre una venta nueva con ese cliente cargado; elegir un artículo abre una venta nueva con el artículo agregado (VEN-06).
+4. [Error] Sin resultados se muestra MSG-04: ""No encontramos artículos ni clientes para «{texto}».""
+5. [Validación] Los resultados aparecen en p95 ≤ 1 s para hasta 70.000 artículos (la demo de ERP Web / POS tiene 69.849).
+
+Escenarios BDD (Gherkin):
+Característica: Buscador único del inicio
+  Escenario: Buscar por código de barras
+    Dado que estoy en mi inicio
+    Cuando leo con el escáner el código de barras de ""ARTICULO 01 - BASE""
+    Entonces veo ""ARTICULO 01 - BASE"" como primer resultado en ""Artículos""
+
+  Escenario: Empezar por el cliente
+    Dado que estoy en mi inicio
+    Cuando busco ""CLIENTE 03"" y elijo el cliente
+    Entonces se abre una venta nueva con ""CLIENTE 03 CUENTA CORRIENTE"" cargado
+
+  Escenario: Sin resultados
+    Cuando busco ""zzzz""
+    Entonces veo el mensaje MSG-04: ""No encontramos artículos ni clientes para «zzzz».""
+
+Fuera de alcance:
+- Búsqueda avanzada con filtros de familia o marca (sigue en la venta).
+
+Notas / preguntas abiertas:
+- Parámetros 32 y 150 definen la búsqueda por código y barras (PRD RF-01).
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-VEN-03 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-03";"Iniciar una venta nueva con el tipo de comprobante elegido";"Como vendedor
+quiero iniciar desde mi inicio una venta nueva como factura, pedido o presupuesto
+para llegar a la pantalla de venta con el tipo correcto en un clic
+
+Valor de negocio: Reemplaza la elección entre pantallas «Crear factura», «Crear pedido» y «Crear presupuesto» por una sola entrada.
+
+Escenarios fuente:
+RF-33 | … y un acceso «Nueva venta»
+RF-31 | … con el marcado «por defecto» preseleccionado
+
+Criterios de aceptación:
+1. [Feliz] «Nueva venta» abre la pantalla Venta con el tipo preseleccionado y los valores de RN-10.
+2. [Alternativo] Elegir otro tipo en «Iniciar como» abre la venta con ese tipo y sus campos propios (fecha de entrega y operación en NP; vencimiento en PR).
+3. [Alternativo] Si hay una venta en curso, se muestra MSG-05: ""Tenés una venta en curso con {n} artículos. ¿Querés retomarla o empezar una nueva?"" con las opciones «Retomar» y «Empezar nueva».
+4. [Validación] «Empezar nueva» descarta la venta en curso (RN-09).
+
+Escenarios BDD (Gherkin):
+Característica: Nueva venta desde el inicio
+  Escenario: Nueva venta como pedido
+    Dado que mi perfil permite Factura y Pedido
+    Cuando elijo ""Pedido"" en ""Iniciar como"" y toco ""Nueva venta""
+    Entonces veo la pantalla Venta como Pedido con fecha de entrega y operación
+
+  Escenario: Venta en curso
+    Dado que tengo una venta en curso con 3 artículos
+    Cuando toco ""Nueva venta""
+    Entonces veo el mensaje MSG-05: ""Tenés una venta en curso con 3 artículos. ¿Querés retomarla o empezar una nueva?""
+
+Fuera de alcance:
+- Varias ventas en curso a la vez (§10).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-04";"Ver mis últimos comprobantes y reenviarlos";"Como vendedor
+quiero ver mis últimos comprobantes en el inicio con acciones de reimprimir y compartir
+para atender un «¿me lo reenviás?» sin buscar en planillas
+
+Valor de negocio: Reimprimir o reenviar es la acción más frecuente después de vender; hoy exige ir a planillas con los comprobantes de todos.
+
+Escenarios fuente:
+RF-34 | El inicio lista los últimos 5 comprobantes del usuario con reimprimir, compartir y ticket de cambio, y un acceso a todos los propios
+
+Criterios de aceptación:
+1. [Feliz] El inicio lista los últimos 5 comprobantes propios (RN-05) con tipo, número, cliente, importe y hora.
+2. [Feliz] Cada comprobante ofrece reimprimir, compartir (WhatsApp o mail) y, en facturas, ticket de cambio.
+3. [Alternativo] «Ver todos» abre V-06 con los propios de los últimos 7 días, filtrables por tipo y cliente.
+4. [Alternativo] Sin comprobantes en el día se muestra MSG-06: ""Todavía no emitiste comprobantes hoy.""
+5. [Validación] Un comprobante recién emitido aparece en la lista al volver al inicio.
+
+Escenarios BDD (Gherkin):
+Característica: Últimos comprobantes
+  Escenario: Reenviar una factura
+    Dado que emití la factura ""FB 0001-00244422""
+    Cuando vuelvo a mi inicio
+    Entonces veo ""FB 0001-00244422"" primero en ""Últimos comprobantes""
+    Y puedo compartirla por WhatsApp
+
+  Escenario: Sin comprobantes
+    Dado que no emití comprobantes hoy
+    Cuando veo mi inicio
+    Entonces veo el mensaje MSG-06: ""Todavía no emitiste comprobantes hoy.""
+
+Fuera de alcance:
+- Comprobantes de otros usuarios (ADM).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-05";"Ver mis pendientes accionables";"Como vendedor
+quiero ver en mi inicio mis pedidos sin facturar y mis comprobantes sin CAE
+para resolverlos antes de que el cliente vuelva o el problema crezca
+
+Valor de negocio: Convierte lo pendiente en acciones de un clic en lugar de buscarlo en planillas.
+
+Escenarios fuente:
+RF-35 | El inicio muestra los pendientes accionables del usuario: pedidos propios sin facturar o sin entregar, comprobantes sin CAE o rechazados y, posterior al MVP, presupuestos por vencer
+
+Criterios de aceptación:
+1. [Feliz] El inicio muestra contadores de pedidos propios sin facturar y de comprobantes propios sin CAE o con CAE rechazado.
+2. [Feliz] Tocar un contador abre la lista filtrada; cada ítem abre el comprobante.
+3. [Alternativo] Las solicitudes de NC propias rechazadas aparecen con MSG-15: ""Solicitud {numero} rechazada: {motivo}.""
+4. [Alternativo] Sin pendientes se muestra MSG-07: ""No tenés pendientes.""
+5. [Error] Si la zona no carga, se muestra MSG-20: ""No pudimos cargar esta sección. Reintentá en unos segundos.""
+
+Escenarios BDD (Gherkin):
+Característica: Pendientes del vendedor
+  Escenario: Factura sin CAE
+    Dado que emití una factura que quedó sin CAE
+    Cuando veo mi inicio
+    Entonces veo ""1 factura sin CAE"" en ""Para accionar""
+
+  Escenario: Sin pendientes
+    Dado que no tengo pendientes
+    Cuando veo mi inicio
+    Entonces veo el mensaje MSG-07: ""No tenés pendientes.""
+
+Fuera de alcance:
+- Presupuestos por vencer (posterior, §10).
+- Reintentar el CAE desde el inicio (sigue en la vista de factura electrónica).
+
+Notas / preguntas abiertas:
+- S-06: se agrega el filtro por usuario emisor a la vista de factura electrónica si no existe.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-VEN-02 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-06";"Agregar un artículo a la venta en un paso";"Como vendedor
+quiero agregar el artículo a la venta con un solo clic desde el resultado de búsqueda
+para cargar la venta más rápido mientras atiendo al cliente
+
+Valor de negocio: Hoy la búsqueda abre el modal «Resultados de tu búsqueda» y pide «Seleccionar» [17:26] (PRD H-27): un paso de más por artículo.
+
+Escenarios fuente:
+RF-36 | Elegir un artículo del resultado de búsqueda lo agrega a la venta en un paso, sin un modal intermedio de selección
+
+Criterios de aceptación:
+1. [Feliz] Elegir un artículo del resultado lo agrega con cantidad 1 y la lista desplegable se cierra.
+2. [Feliz] Leer un código de barras con coincidencia exacta agrega el artículo sin mostrar la lista.
+3. [Alternativo] Si el artículo tiene talle o lote, se pide el talle o lote en la misma línea antes de confirmar la cantidad.
+4. [Alternativo] Agregar un artículo que ya está en la venta suma 1 a su cantidad.
+5. [Validación] Del escaneo al artículo agregado pasa ≤ 1 s en p95 (PRD RNF-09). Se cumple RN-01.
+
+Escenarios BDD (Gherkin):
+Característica: Agregar en un paso
+  Escenario: Desde el resultado
+    Dado que estoy en una venta
+    Cuando busco ""ART01"" y elijo ""ARTICULO 01 - BASE""
+    Entonces la venta tiene 1 unidad de ""ARTICULO 01 - BASE""
+    Y no veo el modal ""Resultados de tu búsqueda""
+
+  Escenario: Artículo con talle
+    Cuando elijo un artículo con talles
+    Entonces veo los talles en la línea del artículo para elegir uno
+
+Fuera de alcance:
+- Búsqueda avanzada con filtros (se conserva como opción secundaria).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-07";"Ver precio, stock y promoción antes de agregar";"Como vendedor
+quiero ver el precio, el stock disponible y la promoción vigente en el resultado de búsqueda
+para decidir con el cliente antes de agregar el artículo
+
+Valor de negocio: Hoy el aviso de stock llega como confirmación después de agregar [17:35] y el vendedor se entera tarde.
+
+Escenarios fuente:
+RF-37 | El resultado de búsqueda muestra, antes de agregar, el precio de la lista del usuario, el stock disponible según el parámetro 109 y la promoción vigente
+
+Criterios de aceptación:
+1. [Feliz] Al resaltar un artículo del resultado (o con la coincidencia exacta del escáner), se consultan para ese artículo y se muestran el precio de la lista del usuario, el stock disponible y la promoción vigente si la hay (S-03).
+2. [Feliz] El stock se calcula según RN-07 (real o remanente) y se indica cuál de los dos se muestra.
+3. [Alternativo] Un artículo con stock 0 o menor que 1 se marca «Sin stock» en el resultado.
+4. [Validación] El precio mostrado es el mismo que toma la venta al agregar (sin diferencias como la de $1.200 → $1.210 vista en la demo).
+
+Escenarios BDD (Gherkin):
+Característica: Precio, stock y promoción en el resultado
+  Escenario: Artículo con promoción
+    Dado que ""ARTICULO 01 - BASE"" tiene una promoción vigente de 10 %
+    Cuando lo busco y lo resalto en el resultado
+    Entonces veo su precio de lista, su stock disponible y ""10 % off""
+
+  Escenario: Precio coherente
+    Dado que el resultado muestra ""ARTICULO 01 - BASE"" a $1.210,00
+    Cuando lo agrego
+    Entonces la línea de la venta muestra $1.210,00
+
+Fuera de alcance:
+- Stock en otras sucursales en el resultado (está en VEN-12 y VEN-15).
+
+Notas / preguntas abiertas:
+- En la demo, el resultado mostró $1.210 y la línea $1.200: verificar si la diferencia es por IVA incluido (parámetros 4, 21, 49) — se registra en §11.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-VEN-06 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-08";"Empezar con la venta precargada por defecto";"Como vendedor
+quiero que la venta nueva venga con los valores habituales cargados y las condiciones plegadas
+para completar solo lo que cambia en esta venta
+
+Valor de negocio: Hoy el panel de condiciones (Enviar como, lista, condición de venta y de pago, depósito, vendedor, descuento, más detalles) está siempre desplegado aunque casi nunca cambie.
+
+Escenarios fuente:
+RF-38 | La venta nueva se precarga con el cliente del parámetro 87, el tipo de comprobante por defecto, la condición, la lista, el depósito y el vendedor del usuario; las condiciones que no cambian quedan plegadas
+
+Criterios de aceptación:
+1. [Feliz] La venta nueva se precarga según RN-10.
+2. [Feliz] Las condiciones se muestran plegadas como un resumen de una línea (por ejemplo «Factura · Contado · L1 · Depósito 01»); tocarlo las despliega.
+3. [Alternativo] Cambiar una condición la deja visible en el resumen hasta emitir.
+4. [Validación] Los campos obligatorios sin valor por defecto se muestran desplegados y bloquean «Cobrar» hasta completarse. Se cumple RN-01.
+
+Escenarios BDD (Gherkin):
+Característica: Venta precargada
+  Escenario: Venta típica
+    Dado que el parámetro 87 define ""CLI01 - CLIENTE 01 CONSUMIDOR FINAL""
+    Cuando inicio una venta nueva
+    Entonces veo el cliente ""CLIENTE 01 CONSUMIDOR FINAL""
+    Y veo las condiciones plegadas como ""Factura · Contado · L1 · DEPOSITO 01 CENTRAL""
+
+Fuera de alcance:
+- Cambiar los valores por defecto del usuario (ERP).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-09";"Ver el total por medio de pago antes de cobrar";"Como vendedor-cajero
+quiero ver cuánto paga el cliente con cada medio de pago y en cuotas antes de cobrar
+para ofrecerle la mejor opción sin volver atrás
+
+Valor de negocio: Hoy el 5 % de descuento en efectivo aparece recién en el cobro [17:38]; el cliente pregunta «¿y en efectivo cuánto es?» antes.
+
+Escenarios fuente:
+RF-39 | Antes de confirmar el cobro, el vendedor ve el total con el descuento o recargo de cada medio de pago y las cuotas disponibles con tarjeta
+
+Criterios de aceptación:
+1. [Feliz] La venta muestra, debajo del total, el total por medio de pago habilitado (por ejemplo «Efectivo $1.140 · Tarjeta 1 pago $1.200»).
+2. [Feliz] «Ver cuotas» muestra los planes con tarjeta, con el importe de cada cuota y el total.
+3. [Alternativo] Al cambiar artículos o condiciones, los totales se recalculan.
+4. [Error] Si el cálculo falla, se muestra MSG-11: ""No pudimos calcular los totales por medio de pago. Los vas a ver al cobrar."" y la venta sigue.
+
+Escenarios BDD (Gherkin):
+Característica: Total por medio de pago
+  Escenario: Descuento en efectivo
+    Dado que el multiplazo da 5 % de descuento en efectivo
+    Y la venta suma $1.200,00
+    Cuando veo el total
+    Entonces veo ""Efectivo $1.140,00""
+
+  Escenario: Falla del cálculo
+    Dado que el cálculo de totales no responde
+    Cuando veo el total
+    Entonces veo el mensaje MSG-11: ""No pudimos calcular los totales por medio de pago. Los vas a ver al cobrar.""
+
+Fuera de alcance:
+- Cuotas de pasarelas QR (Épica 3).
+
+Notas / preguntas abiertas:
+- S-07: el cálculo se hace en el backend con la misma función que usa el cobro.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-VEN-04 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-10";"Volver al inicio con una venta nueva al emitir";"Como vendedor
+quiero, después de emitir, empezar otra venta o volver a mi inicio en un clic
+para atender al próximo cliente sin pasos intermedios
+
+Valor de negocio: Cierra el ciclo de la intención: el puesto queda listo para el próximo cliente.
+
+Escenarios fuente:
+RF-40 | Al emitir, el sistema muestra el comprobante emitido y ofrece «Nueva venta», que vuelve al inicio con una venta vacía
+
+Criterios de aceptación:
+1. [Feliz] Al emitir se muestra MSG-12: ""Comprobante {tipo} {numero} emitido."" con imprimir, compartir, ticket de cambio, ver pago, «Nueva venta» y «Ir al inicio».
+2. [Feliz] «Nueva venta» deja una venta vacía precargada según RN-10.
+3. [Validación] La venta emitida deja de ser venta en curso (RN-09) y aparece en «Últimos comprobantes».
+
+Escenarios BDD (Gherkin):
+Característica: Después de emitir
+  Escenario: Nueva venta
+    Dado que emití la factura ""FB 0001-00244422""
+    Entonces veo el mensaje MSG-12: ""Comprobante Factura FB 0001-00244422 emitido.""
+    Cuando toco ""Nueva venta""
+    Entonces veo una venta vacía con ""CLIENTE 01 CONSUMIDOR FINAL""
+
+Fuera de alcance:
+- Impresión automática sin confirmación.
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-11";"Resolver una venta bloqueada por cuenta corriente";"Como vendedor
+quiero que, si la cuenta corriente del cliente bloquea la venta, el sistema me ofrezca cómo seguir
+para no perder la venta ni tener que llamar a administración
+
+Valor de negocio: Hoy el bloqueo termina la operación; ofrecer contado o pedido recupera la venta dentro de las reglas.
+
+Escenarios fuente:
+RF-41 | Si la validación de cuenta corriente bloquea la venta y el vendedor no tiene el permiso 963, el sistema ofrece cobrar de contado, generar un pedido o derivar al Administrativo
+
+Criterios de aceptación:
+1. [Feliz] Ante el bloqueo (RN-08), se muestra MSG-10: ""La cuenta corriente de {cliente} no permite esta venta: {motivo}. Podés cobrarla de contado o generar un pedido para que la revise administración.""
+2. [Alternativo] «Cobrar de contado» cambia la condición a contado y lleva al cobro.
+3. [Alternativo] «Generar pedido» convierte la venta en pedido; la opción solo aparece con el permiso 003.
+4. [Alternativo] Con el permiso 963, el vendedor puede destildar la validación y emitir.
+5. [Validación] El motivo distingue «límite superado» de «comprobantes vencidos».
+
+Escenarios BDD (Gherkin):
+Característica: Bloqueo por cuenta corriente
+  Escenario: Cliente sobre el límite
+    Dado que ""CLIENTE 03"" superó su límite de crédito
+    Y no tengo el permiso 963
+    Cuando intento emitir una factura en cuenta corriente
+    Entonces veo el mensaje MSG-10: ""La cuenta corriente de CLIENTE 03 no permite esta venta: límite superado. Podés cobrarla de contado o generar un pedido para que la revise administración.""
+
+  Escenario: Generar pedido
+    Dado que veo el bloqueo por cuenta corriente y tengo el permiso 003
+    Cuando elijo ""Generar pedido""
+    Entonces la venta pasa a Pedido con los mismos artículos
+
+Fuera de alcance:
+- Autorización remota del supervisor.
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-12";"Resolver una venta con stock insuficiente";"Como vendedor
+quiero que, si no alcanza el stock, el sistema me avise en la línea y me ofrezca alternativas
+para resolver la venta con el cliente en el momento
+
+Valor de negocio: Reemplaza el modal «¿Confirma el movimiento?» [17:35] por un aviso en contexto con caminos de salida.
+
+Escenarios fuente:
+RF-43 | Ante stock insuficiente, el sistema avisa o bloquea según el parámetro 109 y ofrece ver stock en otras sucursales o generar un pedido
+
+Criterios de aceptación:
+1. [Feliz] Con el parámetro 109 en modo aviso, la línea muestra MSG-08: ""Stock disponible: {disponible}. Estás vendiendo más de lo disponible."" y la venta sigue.
+2. [Alternativo] En modo bloqueo y con Factura, se muestra MSG-09: ""No hay stock suficiente de {articulo} para facturar. Disponible: {disponible}."" y no se puede emitir con esa cantidad.
+3. [Alternativo] El aviso ofrece «Ver otras sucursales» y, con el permiso 003, «Generar pedido».
+4. [Validación] En presupuestos no se valida stock; en pedidos solo con valores 5 a 9 (RN-07).
+
+Escenarios BDD (Gherkin):
+Característica: Stock insuficiente
+  Escenario: Modo aviso
+    Dado que el parámetro 109 vale 5
+    Y ""ARTICULO 01 - BASE"" tiene 0 unidades disponibles
+    Cuando lo agrego a una factura
+    Entonces veo en la línea el mensaje MSG-08: ""Stock disponible: 0. Estás vendiendo más de lo disponible.""
+
+  Escenario: Modo bloqueo
+    Dado que el parámetro 109 vale 2
+    Y ""ARTICULO 01 - BASE"" tiene 0 unidades disponibles
+    Cuando intento emitir la factura
+    Entonces veo el mensaje MSG-09: ""No hay stock suficiente de ARTICULO 01 - BASE para facturar. Disponible: 0.""
+
+Fuera de alcance:
+- Registro de venta no realizada (§10).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-13";"Retomar una venta en curso";"Como vendedor
+quiero ver en mi inicio la venta que dejé armada y retomarla
+para continuar la atención si me interrumpieron
+
+Valor de negocio: En mostrador se interrumpe la atención; hoy la venta persiste pero solo se ve al abrir el carrito.
+
+Escenarios fuente:
+RF-44 | Una venta armada y no emitida queda disponible en el inicio para retomarla
+
+Criterios de aceptación:
+1. [Feliz] Si hay una venta en curso (RN-09), el inicio la muestra con cliente, cantidad de artículos y total.
+2. [Feliz] «Retomar» abre la venta tal como quedó.
+3. [Alternativo] «Descartar» la elimina tras confirmar.
+
+Escenarios BDD (Gherkin):
+Característica: Venta en curso
+  Escenario: Retomar
+    Dado que dejé armada una venta para ""CLIENTE 01"" con 3 artículos
+    Cuando vuelvo a mi inicio
+    Entonces veo ""CLIENTE 01 · 3 ítems"" en ""Ventas en curso""
+    Cuando toco ""Retomar""
+    Entonces veo la venta con los 3 artículos
+
+Fuera de alcance:
+- Varias ventas en curso y persistencia entre dispositivos (§10).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-14";"Convertir un presupuesto propio en pedido o factura";"Como vendedor
+quiero convertir un presupuesto que hice en pedido o factura cuando el cliente vuelve
+para no cargar de nuevo los artículos
+
+Valor de negocio: Soporta los circuitos PR → NP → FC y PR → FC de los clientes [04:46–04:57].
+
+Escenarios fuente:
+RF-45 | El vendedor convierte un presupuesto propio en pedido o factura desde el inicio, copiando su contenido según la parametrización
+
+Criterios de aceptación:
+1. [Feliz] Desde un presupuesto propio, «Convertir» ofrece los tipos permitidos (RN-06) y abre una venta con sus artículos y su cliente.
+2. [Alternativo] Si el presupuesto venció, se muestra MSG-13: ""El presupuesto {numero} venció el {fecha}. Los precios se recalculan con la lista vigente.""
+3. [Validación] El comprobante emitido queda vinculado al presupuesto de origen. Se cumple RN-01.
+
+Escenarios BDD (Gherkin):
+Característica: Convertir presupuesto
+  Escenario: Presupuesto vencido
+    Dado que el presupuesto ""PR 0001-00000123"" venció el 15/10/2026
+    Cuando lo convierto en factura
+    Entonces veo el mensaje MSG-13: ""El presupuesto PR 0001-00000123 venció el 15/10/2026. Los precios se recalculan con la lista vigente.""
+
+Fuera de alcance:
+- Convertir presupuestos de otros vendedores (ADM).
+
+Notas / preguntas abiertas:
+- Qué copia la conversión depende de la parametrización (PRD RF-07).
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-15";"Consultar un artículo sin iniciar una venta";"Como vendedor
+quiero consultar precio, stock en mi depósito y en otras sucursales, promociones y cuotas de un artículo sin abrir una venta
+para responder la consulta del cliente sin ensuciar la venta en curso
+
+Valor de negocio: Una consulta de precio y disponibilidad es parte de la atención [21:14–21:21]; hoy obliga a usar el carrito o la app.
+
+Escenarios fuente:
+RF-46 | El vendedor consulta precio, stock por depósito y sucursal, promociones y cuotas de un artículo sin iniciar una venta
+
+Criterios de aceptación:
+1. [Feliz] Desde el buscador, «Ver detalle» abre la consulta con precio, stock por depósito y sucursal, promociones y cuotas.
+2. [Alternativo] «Agregar a una venta» desde la consulta abre una venta nueva o suma a la venta en curso.
+3. [Alternativo] Sin stock en otras sucursales se muestra MSG-21: ""Sin stock en otras sucursales.""
+4. [Validación] Consultar no crea ni modifica la venta en curso.
+
+Escenarios BDD (Gherkin):
+Característica: Consulta de artículo
+  Escenario: Stock en otras sucursales
+    Dado que ""ARTICULO 01 - BASE"" no tiene stock en mi depósito y tiene 4 en ""Sucursal Norte""
+    Cuando consulto su detalle
+    Entonces veo ""Sucursal Norte: 4""
+
+Fuera de alcance:
+- La intención completa del usuario de consulta (Épica 3).
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"VEN-16";"Registrar una devolución: NC o solicitud de NC";"Como vendedor
+quiero iniciar la devolución de una factura de mi cliente
+para resolverla en el mostrador o dejarla pedida a administración
+
+Valor de negocio: Las devoluciones ocurren en el mostrador; sin este camino el vendedor deriva al cliente a otra persona.
+
+Escenarios fuente:
+RF-47 | Ante una devolución, el vendedor emite la NC vinculada a la factura si tiene el permiso 005, o registra una solicitud de NC para el Administrativo
+
+Criterios de aceptación:
+1. [Feliz] Con el permiso 005, «Devolución» desde una factura abre una NC vinculada con los artículos de esa factura (RN-11).
+2. [Alternativo] Sin el permiso 005, «Devolución» registra una solicitud con artículos, cantidades y motivo, y muestra MSG-14: ""Registramos la solicitud de nota de crédito {numero}. Administración la va a revisar.""
+3. [Error] Si el cliente no tiene facturas con artículos para devolver, se muestra MSG-16: ""No encontramos facturas de {cliente} con artículos para devolver.""
+4. [Validación] Las cantidades a devolver no superan las facturadas menos las ya devueltas.
+
+Escenarios BDD (Gherkin):
+Característica: Devolución
+  Escenario: Solicitud sin permiso
+    Dado que no tengo el permiso 005
+    Cuando inicio una devolución de 1 unidad de la factura ""FB 0001-00244422""
+    Entonces veo el mensaje MSG-14: ""Registramos la solicitud de nota de crédito SNC-0001. Administración la va a revisar.""
+
+Fuera de alcance:
+- Devoluciones sin factura de origen.
+
+Notas / preguntas abiertas:
+- S-04: relevar la «Solicitud Nota de Crédito» del Delphi; si no se puede exponer por la API, se posponen la solicitud (sin permiso 005) y ADM-04.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-VEN-05 | ✅ | ✅ | ⚠️ S-04 | ✅ | ✅ |"
+"Story";"ADM-01";"Ver mis pendientes de gestión al iniciar";"Como administrativo
+quiero ver al iniciar los pendientes de gestión con su cantidad
+para empezar por lo que el equipo de venta me dejó
+
+Valor de negocio: Reemplaza la búsqueda en planillas por una bandeja accionable.
+
+Escenarios fuente:
+RF-49 | El inicio administrativo muestra la bandeja «Pendientes de gestión» con contadores accionables: pedidos sin facturar, solicitudes de NC, comprobantes sin CAE, remitos sin facturar y deudas vencidas
+
+Criterios de aceptación:
+1. [Feliz] El inicio muestra contadores de pedidos sin facturar, solicitudes de NC, comprobantes sin CAE, remitos sin facturar y clientes con deuda vencida, junto al menú lateral.
+2. [Feliz] Tocar un contador abre la pantalla correspondiente filtrada.
+3. [Alternativo] Un contador en 0 se muestra deshabilitado; sin ningún pendiente se muestra MSG-17: ""No hay pendientes de gestión.""
+4. [Validación] Los contadores reflejan los datos de la empresa de la sesión.
+
+Escenarios BDD (Gherkin):
+Característica: Pendientes de gestión
+  Escenario: Pedidos sin facturar
+    Dado que hay 2 pedidos sin facturar
+    Cuando inicio sesión como Administrativo
+    Entonces veo ""Pedidos sin facturar: 2""
+    Cuando lo toco
+    Entonces veo la facturación de pedidos con esos 2 pedidos
+
+Fuera de alcance:
+- Alertas por mail o notificaciones push.
+
+Notas / preguntas abiertas:
+- —
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de HT-ADM-01 | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ADM-02";"Usar un menú lateral acotado a Venta y Stock";"Como administrativo
+quiero un menú con las opciones de gestión de la venta agrupadas por tarea
+para encontrar cada pantalla sin recorrer módulos que no uso
+
+Valor de negocio: Ordena por tarea lo que hoy está repartido entre pestañas de módulo y submenús copiados del ERP.
+
+Escenarios fuente:
+RF-52 | El menú lateral del Administrativo se limita a Buscar comprobante, Factura, NC, ND, Presupuestos, Pedidos, Remitos, Gestión de cuentas y Consultas, según sus permisos
+
+Criterios de aceptación:
+1. [Feliz] El menú muestra, en este orden: Buscar comprobante; Factura (Facturación de pedidos, Libro IVA ventas); Nota de crédito; Nota de débito; Presupuestos; Pedidos; Remitos de venta; Gestión de cuentas (Cuenta corriente, Movimientos, Deudas totales); Consultas (Artículos, Clientes, Stock).
+2. [Alternativo] Un ítem sin permiso no aparece (RN-03).
+3. [Validación] El Administrativo no ve «Crear factura» de mostrador (SUP-08) ni las pestañas Compras, Fondos, Configuración y Usuarios.
+
+Escenarios BDD (Gherkin):
+Característica: Menú del Administrativo
+  Escenario: Menú acotado
+    Dado que inicié sesión como Administrativo con todos los permisos de venta
+    Cuando abro el menú lateral
+    Entonces veo ""Buscar comprobante"", ""Factura"", ""Nota de crédito"", ""Nota de débito"", ""Presupuestos"", ""Pedidos"", ""Remitos de venta"", ""Gestión de cuentas"" y ""Consultas""
+    Y no veo ""Crear factura""
+
+Fuera de alcance:
+- Menús de Compras, Fondos, Contabilidad y Configuración (otros roles).
+
+Notas / preguntas abiertas:
+- El menú se arma hoy desde el backend (`menuFetch` con `disponible`); la agrupación nueva requiere ajustar el árbol que devuelve (T-02).
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ADM-03";"Facturar pedidos pendientes filtrando por vendedor";"Como administrativo
+quiero facturar uno o varios pedidos pendientes filtrándolos por cliente, fecha o vendedor
+para cerrar en lote lo que vendió el salón
+
+Valor de negocio: Es el traspaso principal entre el vendedor de salón y la administración [20:59–21:06].
+
+Escenarios fuente:
+RF-48 | El Administrativo factura uno o varios pedidos pendientes, filtrados por cliente, fecha o vendedor, respetando el parámetro 116 para pedidos de otra empresa
+
+Criterios de aceptación:
+1. [Feliz] La facturación de pedidos filtra por cliente, rango de fechas y vendedor.
+2. [Feliz] Seleccionar varios pedidos del mismo cliente genera la factura con sus ítems; el stock reservado se libera y se descuenta (RN-01).
+3. [Error] Un pedido de otra empresa que el parámetro 116 no permite facturar muestra MSG-18: ""El pedido {numero} es de {empresa} y tu configuración no permite facturarlo desde esta empresa.""
+4. [Validación] Facturados, los pedidos salen de «Pedidos sin facturar» del Administrativo y del vendedor.
+
+Escenarios BDD (Gherkin):
+Característica: Facturación de pedidos
+  Escenario: Filtrar por vendedor
+    Dado que hay pedidos sin facturar de los vendedores ""Juan"" y ""Ana""
+    Cuando filtro por vendedor ""Juan""
+    Entonces veo solo los pedidos de ""Juan""
+
+  Escenario: Pedido de otra empresa
+    Dado que el parámetro 116 vale 0
+    Cuando intento facturar el pedido ""NP 0000-00321163"" de ""Empresa 2""
+    Entonces veo el mensaje MSG-18: ""El pedido NP 0000-00321163 es de Empresa 2 y tu configuración no permite facturarlo desde esta empresa.""
+
+Fuera de alcance:
+- Facturación masiva de verticales (PRD S-10).
+
+Notas / preguntas abiertas:
+- Confirmar que el endpoint actual de pedidos pendientes admite el filtro por vendedor.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ✅ | ✅ | ✅ | ✅ | ✅ | ✅ |"
+"Story";"ADM-04";"Resolver solicitudes de nota de crédito";"Como administrativo
+quiero ver las solicitudes de nota de crédito de los vendedores y emitirlas o rechazarlas
+para controlar las devoluciones sin frenar la atención en el mostrador
+
+Valor de negocio: Completa el circuito de devolución cuando el vendedor no tiene permiso para emitir la NC.
+
+Escenarios fuente:
+RF-51 | El Administrativo resuelve las solicitudes de NC del vendedor: emitir la NC vinculada o rechazarla con motivo
+
+Criterios de aceptación:
+1. [Feliz] La lista de solicitudes muestra vendedor, cliente, factura, artículos, cantidades y motivo.
+2. [Feliz] «Emitir NC» abre la NC vinculada precargada; al emitirla, la solicitud queda resuelta.
+3. [Alternativo] «Rechazar» pide un motivo; el vendedor lo ve en sus pendientes (MSG-15: ""Solicitud {numero} rechazada: {motivo}."").
+4. [Error] Rechazar sin motivo muestra MSG-19: ""Ingresá el motivo del rechazo.""
+
+Escenarios BDD (Gherkin):
+Característica: Solicitudes de NC
+  Escenario: Rechazo sin motivo
+    Dado que veo la solicitud ""SNC-0001""
+    Cuando toco ""Rechazar"" sin escribir un motivo
+    Entonces veo el mensaje MSG-19: ""Ingresá el motivo del rechazo.""
+
+Fuera de alcance:
+- Aprobaciones en varios niveles.
+
+Notas / preguntas abiertas:
+- Depende del spike S-04.
+
+Chequeo INVEST:
+| I | N | V | E | S | T |
+|---|---|---|---|---|---|
+| ⚠️ depende de VEN-16 | ✅ | ✅ | ⚠️ S-04 | ✅ | ✅ |"
+"Task";"HT-ROL-01";"GET · Contexto de sesión: experiencia, permisos y puesto";"Objetivo técnico: Devolver en una sola llamada la experiencia de inicio, los permisos de los menús 78, 80, 87 y 90 como pares (menú, permiso), los tipos de comprobante habilitados y el contexto del puesto.
+
+Criterios de aceptación:
+1. `200` con `{ experiencia: ""VENDEDOR"" | ""ADMINISTRATIVO"", experienciaOrigen: ""PERFIL"" | ""INFERIDA"", permisos: [{ menu, codigo }], tiposComprobante: [{ codigo, tipo, porDefecto }], puesto: { sucursal, puntoVenta, tipoPuntoVenta: ""ELECTRONICO"" | ""CONTROLADOR_FISCAL"", deposito, caja }, empresa }`.
+2. Sin atributo en el perfil, `experiencia` se calcula con RN-02 y `experienciaOrigen = ""INFERIDA""`.
+3. Usuario sin perfil: `403` con `PERFIL_INEXISTENTE`.
+4. p95 ≤ 500 ms.
+
+Escenarios BDD (Gherkin):
+Característica: Contexto de sesión
+  Escenario: Experiencia inferida
+    Dado un usuario cuyo perfil no tiene experiencia y tiene el permiso 003 del menú 87
+    Cuando se consulta GET /bff/sesion/contexto
+    Entonces la respuesta es 200 con experiencia ""VENDEDOR"" y experienciaOrigen ""INFERIDA""
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Contexto resuelto |
+| 401 | `SESION_INVALIDA` | Token vencido o inválido |
+| 403 | `PERFIL_INEXISTENTE` | El usuario no tiene perfil |
+| 502 | `API_NO_DISPONIBLE` | La Web API no responde |"
+"Task";"HT-VEN-01";"GET · Comprobantes del usuario";"Objetivo técnico: Listar los comprobantes propios (RN-05), ordenados del más reciente al más antiguo, con lo necesario para reimprimir, compartir, convertir o devolver.
+
+Criterios de aceptación:
+1. `200` con `[{ tipo, numero, fecha, cliente, importe, estadoCae, convertible, devolvible }]`.
+2. Sin parámetros, devuelve los últimos 5 del día.
+3. Solo devuelve comprobantes propios, aunque el usuario tenga permisos de planilla.
+4. p95 ≤ 800 ms para hasta 300 comprobantes por día (SUP-12).
+
+Escenarios BDD (Gherkin):
+Característica: Comprobantes propios
+  Escenario: Últimos 5
+    Dado un vendedor que emitió 8 comprobantes hoy
+    Cuando se consulta GET /bff/vendedor/comprobantes
+    Entonces la respuesta tiene los 5 más recientes del vendedor
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Lista, vacía o no |
+| 400 | `RANGO_INVALIDO` | `desde` posterior a `hasta` o rango mayor a 31 días |
+| 401 | `SESION_INVALIDA` | Token inválido |"
+"Task";"HT-VEN-02";"GET · Pendientes del usuario";"Objetivo técnico: Devolver contadores y listas de pendientes propios: pedidos sin facturar y sin entregar, comprobantes sin CAE o rechazados, solicitudes de NC rechazadas.
+
+Criterios de aceptación:
+1. `200` con `{ pedidosSinFacturar: { cantidad, items }, pedidosSinEntregar, comprobantesSinCae, solicitudesNcRechazadas }`.
+2. Cada ítem trae `tipo`, `numero`, `cliente`, `fecha` y `motivo` cuando aplica.
+3. Una falla parcial (por ejemplo, la consulta de CAE) devuelve `200` con esa clave en `null` y `errores: [""CAE""]`, sin perder el resto.
+
+Escenarios BDD (Gherkin):
+Característica: Pendientes propios
+  Escenario: Falla parcial
+    Dado que la consulta de CAE no responde
+    Cuando se consulta GET /bff/pendientes?ambito=PROPIOS
+    Entonces la respuesta es 200 con comprobantesSinCae nulo y errores [""CAE""]
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Resultado completo o parcial |
+| 401 | `SESION_INVALIDA` | Token inválido |"
+"Task";"HT-VEN-03";"GET · Búsqueda unificada de artículos y clientes";"Objetivo técnico: Devolver artículos y clientes para un texto, con el precio de la lista del usuario. El stock y la promoción no viajan en el listado: se consultan por artículo con HT-VEN-06 (S-03).
+
+Criterios de aceptación:
+1. `200` con `{ articulos: [{ codigo, descripcion, marca, precio, tieneTalle, tieneLote }], clientes: [{ codigo, razonSocial, cuit, telefono }] }`.
+2. Una coincidencia exacta de código de barras devuelve ese artículo primero con `coincidenciaExacta: true`.
+3. `q` con menos de 3 caracteres responde `400 TEXTO_CORTO`, salvo que sea un código exacto.
+4. p95 ≤ 1 s para un catálogo de hasta 70.000 artículos y `limite` ≤ 20.
+
+Escenarios BDD (Gherkin):
+Característica: Búsqueda unificada
+  Escenario: Código de barras exacto
+    Dado el artículo ""ART01"" con código de barras ""7790000000011""
+    Cuando se consulta GET /bff/busqueda?q=7790000000011
+    Entonces el primer artículo es ""ART01"" con coincidenciaExacta verdadero
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Resultado, vacío o no |
+| 400 | `TEXTO_CORTO` | Menos de 3 caracteres y no es un código exacto |
+| 502 | `API_NO_DISPONIBLE` | La Web API no responde |"
+"Task";"HT-VEN-06";"GET · Disponibilidad del artículo: stock y promoción";"Objetivo técnico: Devolver, para un artículo, el stock disponible según el parámetro 109, el stock en otras sucursales y la promoción vigente para el cliente y la lista de la venta (S-03: consulta por artículo).
+
+Criterios de aceptación:
+1. `200` con `{ stockDisponible, criterioStock: ""REAL"" | ""REMANENTE"" | ""REMANENTE_MAS_OC"", modoValidacion: ""AVISO"" | ""BLOQUEO"" | ""NINGUNO"", otrasSucursales: [{ sucursal, deposito, stock }], promocion: { descripcion, porcentaje } | null }`.
+2. `criterioStock` y `modoValidacion` salen del parámetro 109 (RN-07); con `VerificaStock = 0` en el artículo, `modoValidacion = ""NINGUNO""`.
+3. Artículo inexistente: `404 ARTICULO_INEXISTENTE`.
+4. p95 ≤ 500 ms por artículo.
+
+Escenarios BDD (Gherkin):
+Característica: Disponibilidad del artículo
+  Escenario: Modo aviso contra remanente
+    Dado que el parámetro 109 vale 5
+    Cuando se consulta GET /bff/articulos/ART01/disponibilidad
+    Entonces la respuesta trae criterioStock ""REMANENTE"" y modoValidacion ""AVISO""
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Disponibilidad calculada |
+| 404 | `ARTICULO_INEXISTENTE` | El código no existe |
+| 502 | `API_NO_DISPONIBLE` | La Web API no responde |"
+"Task";"HT-VEN-04";"POST · Simulación del total por medio de pago";"Objetivo técnico: Calcular en el backend (S-07), con la misma función que usa el cobro, el total por cada medio de pago habilitado y los planes de cuotas con tarjeta de la venta en armado, sin registrar nada.
+
+Criterios de aceptación:
+1. Body: `{ cliente, items, condicionVenta, multiplazo, lista }`.
+2. `200` con `[{ medio, total, ajuste: { tipo: ""DESCUENTO"" | ""RECARGO"", porcentaje }, planes: [{ cuotas, importeCuota, total }] }]`.
+3. El total por medio coincide con el que calcula el cobro al emitir (RN-01).
+4. Es idempotente y no reserva stock ni numeración.
+
+Escenarios BDD (Gherkin):
+Característica: Simulación por medio de pago
+  Escenario: Efectivo con descuento
+    Dado una venta de $1.200,00 con un multiplazo que da 5 % en efectivo
+    Cuando se envía POST /bff/ventas/simulacion-medios-pago
+    Entonces la respuesta incluye medio ""EFECTIVO"" con total 1140.00
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Simulación calculada |
+| 422 | `VENTA_INCOMPLETA` | Faltan cliente o ítems |
+| 502 | `GATEWAY_NO_DISPONIBLE` | El gateway de pagos no responde (se devuelven los medios sin planes) |"
+"Task";"HT-VEN-05";"POST / PATCH · Solicitudes de nota de crédito";"Objetivo técnico: Registrar la solicitud del vendedor, listarla para el Administrativo y resolverla (emitida o rechazada con motivo).
+
+Criterios de aceptación:
+1. `POST` con `{ facturaOrigen, items: [{ articulo, cantidad }], motivo }` → `201` con `{ id, numero, estado: ""PENDIENTE"" }`.
+2. Una cantidad mayor a la facturada menos la devuelta → `422 CANTIDAD_EXCEDIDA`.
+3. `PATCH` con `{ estado: ""RECHAZADA"", motivo }` sin motivo → `422 MOTIVO_REQUERIDO`; con `{ estado: ""EMITIDA"", notaCredito }` vincula la NC.
+4. Solo un perfil con el permiso 005 puede resolverla (`403` en otro caso).
+
+Escenarios BDD (Gherkin):
+Característica: Solicitud de NC
+  Escenario: Cantidad excedida
+    Dado la factura ""FB 0001-00244422"" con 1 unidad de ""ART01""
+    Cuando se envía POST /bff/solicitudes-nc con 2 unidades de ""ART01""
+    Entonces la respuesta es 422 con CANTIDAD_EXCEDIDA
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 201 | — | Solicitud registrada |
+| 403 | `SIN_PERMISO` | Resolver sin el permiso 005 |
+| 404 | `FACTURA_INEXISTENTE` | La factura de origen no existe |
+| 422 | `CANTIDAD_EXCEDIDA` / `MOTIVO_REQUERIDO` | Validaciones |"
+"Task";"HT-ADM-01";"GET · Contadores de pendientes de gestión";"Objetivo técnico: Devolver los contadores de la empresa de la sesión para la bandeja del Administrativo.
+
+Criterios de aceptación:
+1. `200` con `{ pedidosSinFacturar, solicitudesNc, comprobantesSinCae, remitosSinFacturar, clientesConDeudaVencida }`, cada uno con `cantidad`.
+2. Requiere experiencia Administrativo; con experiencia Vendedor responde `403`.
+3. p95 ≤ 1 s.
+
+Escenarios BDD (Gherkin):
+Característica: Contadores de gestión
+  Escenario: Vendedor sin acceso
+    Dado un usuario con experiencia ""VENDEDOR""
+    Cuando se consulta GET /bff/pendientes?ambito=EMPRESA
+    Entonces la respuesta es 403 con SIN_PERMISO
+
+Errores esperados:
+| Código HTTP | Código negocio | Cuándo |
+|-------------|----------------|--------|
+| 200 | — | Contadores |
+| 403 | `SIN_PERMISO` | Experiencia distinta de Administrativo |"
