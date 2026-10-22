@@ -195,10 +195,9 @@ Disponibilidad preliminar, a confirmar con el track de Tecnología: ✅ existe �
 | Fuentes del ERP y notas de release | ✅ Disponible | Confirmar la etiqueta 04.12 (S-14) |
 | Repositorios `flexxus-order`, `flexxuserpweb`, `flxwebapi-v6` | 🟡 Snapshot del 06/10 | — |
 | Acceso a la demo de ERP Web / POS ofrecido en la reunión [37:10–37:14] | 🔴 Pendiente | Pedirlo para medir el flujo actual (RNF-10) |
-| Roundup de intenciones con Fer y Ale | 🔴 Sin fecha | Pedirlo para el 27 o el 28-10 |
-| Demo del ERP de punta a punta con Leo | 🔴 Sin fecha | Pedirla para el 27-10 |
+| Definición de intenciones/validadas con cliente | 🔴 Sin fecha | Pedirlo para el 27 o el 28-10 |
+| Demo del ERP de punta a punta | 🔴 Sin fecha | Pedirla para el 27-10 |
 | Muestra de 5 instalaciones con sus parámetros | 🔴 Pendiente | Pedirla (S-05, S-12, S-13) |
-| Jira FO y FLEXV2 | 🔴 Pendiente | Pedir acceso de lectura |
 
 ---
 
