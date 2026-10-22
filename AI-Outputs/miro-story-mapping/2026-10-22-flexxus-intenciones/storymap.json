@@ -1,0 +1,426 @@
+{
+  "title": "Flexxus: de pantallas a intenciones (roles Vendedor y Administrativo)",
+  "subtitle": "Story Mapping",
+  "product": "Flexxus ERP",
+  "board_name": "Flexxus ERP — Story Mapping",
+  "mvp": "El MVP es la intención «Vender en mostrador» del rol Vendedor: al iniciar sesión, el vendedor entra a su propia pantalla principal, desde la que busca, arma, cobra y emite la venta (factura, pedido o presupuesto) con todas las reglas de precio, stock y cuenta corriente del core, sin ver el menú del ERP; todavía no gestiona lo que otros generaron ni cubre otras intenciones (viajante, depósito, consulta pura).",
+  "epics": [
+    {
+      "code": "ROL",
+      "name": "Experiencia por rol: entrada y navegación"
+    },
+    {
+      "code": "VEN",
+      "name": "Intención «Vender en mostrador»"
+    },
+    {
+      "code": "ADM",
+      "name": "Intención «Gestionar y cerrar la venta»"
+    }
+  ],
+  "objetivos": [
+    "OBJ-1 Roles Vendedor y Administrativo definidos: permisos, vistas, funcionalidades y regla de asignación",
+    "OBJ-2 Experiencia objetivo del Vendedor: inicio (dashboard), flujo principal y alternativos",
+    "OBJ-3 Experiencia objetivo del Administrativo: inicio, menú acotado y flujos principales",
+    "OBJ-4 Capacidades del core y datos que requiere la experiencia, con su disponibilidad",
+    "OBJ-5 Catálogo de intenciones priorizado para el roadmap",
+    "OBJ-6 Equivalencia funcional del flujo del Vendedor con el comportamiento vigente"
+  ],
+  "fuentes": [
+    {
+      "label": "Historias de usuario (md)",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md"
+    },
+    {
+      "label": "PRD",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/prd/PRD-flexxus-venta-stock-2026-10-22.md"
+    }
+  ],
+  "items": [
+    {
+      "key": "ROL-01",
+      "title": "Entrar a la pantalla de inicio de mi rol",
+      "type": "HU",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#rol-01--entrar-a-la-pantalla-de-inicio-de-mi-rol"
+    },
+    {
+      "key": "ROL-02",
+      "title": "Navegar como Vendedor sin el menú del ERP",
+      "type": "HU",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#rol-02--navegar-como-vendedor-sin-el-men%C3%BA-del-erp"
+    },
+    {
+      "key": "ROL-03",
+      "title": "Operar como Administrativo sin la pantalla de venta",
+      "type": "HU",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#rol-03--operar-como-administrativo-sin-la-pantalla-de-venta"
+    },
+    {
+      "key": "ROL-04",
+      "title": "Ver solo los tipos de comprobante que mi perfil permite",
+      "type": "HU",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#rol-04--ver-solo-los-tipos-de-comprobante-que-mi-perfil-permite"
+    },
+    {
+      "key": "VEN-01",
+      "title": "Ver el contexto de mi puesto al iniciar",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-01--ver-el-contexto-de-mi-puesto-al-iniciar"
+    },
+    {
+      "key": "VEN-02",
+      "title": "Buscar artículo o cliente desde el inicio",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-02--buscar-art%C3%ADculo-o-cliente-desde-el-inicio"
+    },
+    {
+      "key": "VEN-03",
+      "title": "Iniciar una venta nueva con el tipo de comprobante elegido",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-03--iniciar-una-venta-nueva-con-el-tipo-de-comprobante-elegido"
+    },
+    {
+      "key": "VEN-04",
+      "title": "Ver mis últimos comprobantes y reenviarlos",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-04--ver-mis-%C3%BAltimos-comprobantes-y-reenviarlos"
+    },
+    {
+      "key": "VEN-05",
+      "title": "Ver mis pendientes accionables",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-05--ver-mis-pendientes-accionables"
+    },
+    {
+      "key": "VEN-06",
+      "title": "Agregar un artículo a la venta en un paso",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-06--agregar-un-art%C3%ADculo-a-la-venta-en-un-paso"
+    },
+    {
+      "key": "VEN-07",
+      "title": "Ver precio, stock y promoción antes de agregar",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-07--ver-precio-stock-y-promoci%C3%B3n-antes-de-agregar"
+    },
+    {
+      "key": "VEN-08",
+      "title": "Empezar con la venta precargada por defecto",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-08--empezar-con-la-venta-precargada-por-defecto"
+    },
+    {
+      "key": "VEN-09",
+      "title": "Ver el total por medio de pago antes de cobrar",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-09--ver-el-total-por-medio-de-pago-antes-de-cobrar"
+    },
+    {
+      "key": "VEN-10",
+      "title": "Volver al inicio con una venta nueva al emitir",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-10--volver-al-inicio-con-una-venta-nueva-al-emitir"
+    },
+    {
+      "key": "VEN-11",
+      "title": "Resolver una venta bloqueada por cuenta corriente",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-11--resolver-una-venta-bloqueada-por-cuenta-corriente"
+    },
+    {
+      "key": "VEN-12",
+      "title": "Resolver una venta con stock insuficiente",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-12--resolver-una-venta-con-stock-insuficiente"
+    },
+    {
+      "key": "VEN-13",
+      "title": "Retomar una venta en curso",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-13--retomar-una-venta-en-curso"
+    },
+    {
+      "key": "VEN-14",
+      "title": "Convertir un presupuesto propio en pedido o factura",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-14--convertir-un-presupuesto-propio-en-pedido-o-factura"
+    },
+    {
+      "key": "VEN-15",
+      "title": "Consultar un artículo sin iniciar una venta",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-15--consultar-un-art%C3%ADculo-sin-iniciar-una-venta"
+    },
+    {
+      "key": "VEN-16",
+      "title": "Registrar una devolución: NC o solicitud de NC",
+      "type": "HU",
+      "epic": "VEN",
+      "lane": "Could",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ven-16--registrar-una-devoluci%C3%B3n-nc-o-solicitud-de-nc"
+    },
+    {
+      "key": "ADM-01",
+      "title": "Ver mis pendientes de gestión al iniciar",
+      "type": "HU",
+      "epic": "ADM",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#adm-01--ver-mis-pendientes-de-gesti%C3%B3n-al-iniciar"
+    },
+    {
+      "key": "ADM-02",
+      "title": "Usar un menú lateral acotado a Venta y Stock",
+      "type": "HU",
+      "epic": "ADM",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#adm-02--usar-un-men%C3%BA-lateral-acotado-a-venta-y-stock"
+    },
+    {
+      "key": "ADM-03",
+      "title": "Facturar pedidos pendientes filtrando por vendedor",
+      "type": "HU",
+      "epic": "ADM",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#adm-03--facturar-pedidos-pendientes-filtrando-por-vendedor"
+    },
+    {
+      "key": "ADM-04",
+      "title": "Resolver solicitudes de nota de crédito",
+      "type": "HU",
+      "epic": "ADM",
+      "lane": "Could",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#adm-04--resolver-solicitudes-de-nota-de-cr%C3%A9dito"
+    },
+    {
+      "key": "HT-ROL-01",
+      "title": "GET · Contexto de sesión: experiencia, permisos y puesto",
+      "type": "HT",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-rol-01--get--contexto-de-sesi%C3%B3n-experiencia-permisos-y-puesto"
+    },
+    {
+      "key": "HT-VEN-01",
+      "title": "GET · Comprobantes del usuario",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-01--get--comprobantes-del-usuario"
+    },
+    {
+      "key": "HT-VEN-02",
+      "title": "GET · Pendientes del usuario",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-02--get--pendientes-del-usuario"
+    },
+    {
+      "key": "HT-VEN-03",
+      "title": "GET · Búsqueda unificada de artículos y clientes",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-03--get--b%C3%BAsqueda-unificada-de-art%C3%ADculos-y-clientes"
+    },
+    {
+      "key": "HT-VEN-06",
+      "title": "GET · Disponibilidad del artículo: stock y promoción",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-06--get--disponibilidad-del-art%C3%ADculo-stock-y-promoci%C3%B3n"
+    },
+    {
+      "key": "HT-VEN-04",
+      "title": "POST · Simulación del total por medio de pago",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Should",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-04--post--simulaci%C3%B3n-del-total-por-medio-de-pago"
+    },
+    {
+      "key": "HT-VEN-05",
+      "title": "POST / PATCH · Solicitudes de nota de crédito",
+      "type": "HT",
+      "epic": "VEN",
+      "lane": "Could",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-ven-05--post--patch--solicitudes-de-nota-de-cr%C3%A9dito"
+    },
+    {
+      "key": "HT-ADM-01",
+      "title": "GET · Contadores de pendientes de gestión",
+      "type": "HT",
+      "epic": "ADM",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#ht-adm-01--get--contadores-de-pendientes-de-gesti%C3%B3n"
+    },
+    {
+      "key": "T-01",
+      "title": "Atributo «Experiencia de inicio» en el perfil",
+      "type": "T",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "T-02",
+      "title": "Permisos por menú en el store del front",
+      "type": "T",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "T-03",
+      "title": "Layouts por rol y guard de rutas",
+      "type": "T",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "T-04",
+      "title": "Retirar la home de ejemplo",
+      "type": "T",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "T-05",
+      "title": "Instrumentar la venta típica",
+      "type": "T",
+      "epic": "VEN",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "T-06",
+      "title": "Feature flag de la experiencia por rol",
+      "type": "T",
+      "epic": "ROL",
+      "lane": "Must",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#8-tareas-t%C3%A9cnicas--habilitadores"
+    },
+    {
+      "key": "S-01",
+      "title": "Se puede agregar el atributo de experiencia al perfil del…",
+      "type": "S",
+      "epic": "ROL",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-02",
+      "title": "Qué códigos de menú cuentan como «administrativos» para la…",
+      "type": "S",
+      "epic": "ROL",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-03",
+      "title": "La API devuelve stock disponible y promoción en el listado…",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-04",
+      "title": "La «Solicitud Nota de Crédito» del ERP existe en la base y…",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-05",
+      "title": "Qué contiene hoy el campo rol de la sesión web (pendiente)",
+      "type": "S",
+      "epic": "ROL",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-06",
+      "title": "La vista de factura electrónica permite filtrar los…",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-07",
+      "title": "El total por medio de pago y los planes de cuotas se…",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-08",
+      "title": "Se construye sobre Flexxus Order o sobre ERP Web / POS",
+      "type": "S",
+      "epic": "ROL",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-09",
+      "title": "Si el vendedor no tiene el permiso 003, ¿se le ofrece…",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    },
+    {
+      "key": "S-10",
+      "title": "Los escáneres en uso funcionan como teclado (con Enter al… (pendiente)",
+      "type": "S",
+      "epic": "VEN",
+      "lane": "Spike",
+      "url": "https://github.com/marianaybanezintive-cmd/AI-Guideline_Efficiency/blob/main/AI-Outputs/po-expert-user-stories/po-historias-usuario-2026-10-22-flexxus-intenciones-vendedor-administrativo.md#9-spikes-y-decisiones-pendientes-columna-dudas"
+    }
+  ],
+  "warnings": []
+}
