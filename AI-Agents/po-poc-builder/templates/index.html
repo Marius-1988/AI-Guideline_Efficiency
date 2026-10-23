@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex">
+    <title>{{APP_NAME}} | {{CLIENT}}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="{{FONTS_URL}}" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="boot" class="boot"><div class="spinner"></div></div>
+
+    <section id="login-screen" class="login hidden" aria-label="Ingreso">
+        <div class="login-brand">
+            <div class="brand-logo" data-bind="logoText"></div>
+            <h1 data-bind="appName"></h1>
+            <p data-bind="tagline"></p>
+            <p class="login-client" data-bind="client"></p>
+        </div>
+        <div class="login-panel">
+            <div class="login-card">
+                <h2>Ingresá a tu cuenta</h2>
+                <p class="muted">Usá tu usuario corporativo para continuar.</p>
+                <form id="login-form" novalidate>
+                    <div class="field">
+                        <label for="login-email">Usuario (email)</label>
+                        <input class="input" id="login-email" type="email" autocomplete="username" placeholder="nombre@empresa.com">
+                        <p class="field-error hidden" data-error-for="login-email"></p>
+                    </div>
+                    <div class="field">
+                        <label for="login-password">Contraseña</label>
+                        <div class="input-icon">
+                            <input class="input" id="login-password" type="password" autocomplete="current-password">
+                            <button type="button" class="btn-icon" data-toggle-password="login-password" aria-label="Mostrar u ocultar contraseña"><i class="ph ph-eye"></i></button>
+                        </div>
+                        <p class="field-error hidden" data-error-for="login-password"></p>
+                    </div>
+                    <div class="alert alert-danger hidden" id="login-error" role="alert"></div>
+                    <button type="submit" class="btn btn-primary w-100" id="login-submit">Ingresar</button>
+                    <button type="button" class="btn-link" id="forgot-password">¿Olvidaste tu contraseña?</button>
+                </form>
+                <div class="divider"><span>o</span></div>
+                <button type="button" class="btn btn-ghost w-100" id="demo-login"><i class="ph ph-flask"></i> Ingresar en modo demo</button>
+            </div>
+            <aside class="demo-users" aria-label="Usuarios de prueba">
+                <p class="eyebrow">POC · Usuarios de prueba (clic para completar)</p>
+                <ul id="demo-users-list"></ul>
+            </aside>
+        </div>
+    </section>
+
+    <div id="app-shell" class="shell hidden">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-logo sm" data-bind="logoText"></div>
+                <div><strong data-bind="appName"></strong><small data-bind="client"></small></div>
+            </div>
+            <nav id="nav" class="nav" aria-label="Menú principal"></nav>
+            <div class="sidebar-foot">
+                <button type="button" class="nav-item" id="logout-btn"><i class="ph ph-sign-out"></i><span>Cerrar sesión</span></button>
+                <small class="version" data-bind="versionLabel"></small>
+            </div>
+        </aside>
+        <div class="main">
+            <header class="topbar">
+                <button type="button" class="btn-icon only-mobile" id="menu-toggle" aria-label="Abrir menú"><i class="ph ph-list"></i></button>
+                <h1 id="page-title" class="page-title"></h1>
+                <div class="topbar-actions">
+                    <div class="search hide-mobile"><i class="ph ph-magnifying-glass"></i><input id="global-search" type="search" placeholder="Buscar..."></div>
+                    <span class="chip hide-mobile" id="data-mode-chip"></span>
+                    <button type="button" class="btn-icon" id="notif-btn" aria-label="Notificaciones"><i class="ph ph-bell"></i><span class="dot"></span></button>
+                    <button type="button" class="user-chip" id="user-chip" title="Mi perfil">
+                        <span class="avatar" id="user-avatar"></span>
+                        <span class="hide-mobile"><strong id="user-name"></strong><small id="user-role"></small></span>
+                    </button>
+                </div>
+            </header>
+            <main id="view" class="view" tabindex="-1"></main>
+        </div>
+    </div>
+
+    <button type="button" class="demo-fab hidden" id="demo-fab" title="Panel de demo" aria-label="Abrir panel de demo"><i class="ph ph-flask"></i></button>
+    <aside class="drawer hidden" id="demo-drawer" aria-label="Panel de demo"></aside>
+    <div id="modal-root"></div>
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+    <script type="module" src="js/core/app.js"></script>
+</body>
+</html>

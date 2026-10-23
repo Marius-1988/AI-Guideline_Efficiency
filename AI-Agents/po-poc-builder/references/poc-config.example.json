@@ -1,0 +1,79 @@
+{
+  "slug": "atlas-confirming",
+  "app": {
+    "name": "Portal Confirming",
+    "client": "Banco Atlas",
+    "industry": "Banca corporativa / factoring",
+    "tagline": "Financiá tus facturas a proveedores en minutos, con trazabilidad total.",
+    "logoText": "BA",
+    "version": "v1.0.0",
+    "locale": "es-PY",
+    "currency": "PYG"
+  },
+  "deploy": {
+    "repoUrl": "https://github.com/marianaybanezintive-cmd/atlas-confirming-poc",
+    "branch": "main"
+  },
+  "palette": {
+    "primary": "#901D2D",
+    "secondary": "#A61E32",
+    "accent": "#E4B012",
+    "background": "#FAFAFA",
+    "surface": "#FFFFFF",
+    "text": "#4D4D4D",
+    "muted": "#6B6B6B",
+    "border": "#D4D4D4",
+    "success": "#0D9488",
+    "warning": "#D97706",
+    "danger": "#B91C1C",
+    "info": "#1D4ED8",
+    "sidebar": "#F0F0F0"
+  },
+  "fonts": { "heading": "Montserrat", "body": "Open Sans" },
+  "radius": 8,
+  "roles": [
+    { "id": "admin", "label": "Banco · Administrador", "description": "Acceso total a la plataforma.", "permissions": ["*"] },
+    { "id": "egp", "label": "Empresa pagadora (EGP)", "description": "Carga y aprueba facturas de sus proveedores.", "permissions": ["facturas.ver", "facturas.aprobar"] },
+    { "id": "proveedor", "label": "Proveedor", "description": "Consulta y solicita el adelanto de sus facturas.", "permissions": ["facturas.ver", "facturas.financiar"] }
+  ],
+  "users": [
+    { "email": "admin@demo.bancoatlas.com", "password": "Demo2026!", "name": "Ana Gómez", "title": "Oficial de Confirming", "role": "admin" },
+    { "email": "egp@demo.bancoatlas.com", "password": "Demo2026!", "name": "Carlos Benítez", "title": "Tesorería · Retail S.A.", "role": "egp" },
+    { "email": "proveedor@demo.bancoatlas.com", "password": "Demo2026!", "name": "Laura Ramírez", "title": "Tech Solutions S.A.", "role": "proveedor" }
+  ],
+  "menu": [
+    { "id": "dashboard", "label": "Dashboard", "icon": "ph-squares-four", "view": "dashboard" },
+    { "id": "facturas", "label": "Confirming", "icon": "ph-receipt", "view": "facturas", "section": "Operaciones" },
+    { "id": "abm", "label": "Gestión (ABM)", "icon": "ph-users-three", "view": "abm", "section": "Operaciones", "roles": ["admin"] },
+    { "id": "desembolsos", "label": "Desembolsos", "icon": "ph-bank", "status": "construction", "section": "Operaciones",
+      "description": "Seguimiento de las transferencias a proveedores y su conciliación.",
+      "upcoming": ["Ver el estado de cada desembolso en tiempo real", "Descargar comprobantes de transferencia", "Conciliar automáticamente contra el core bancario"] },
+    { "id": "limites", "label": "Líneas y límites", "icon": "ph-gauge", "status": "construction", "section": "Riesgo", "roles": ["admin", "egp"],
+      "upcoming": ["Consultar el cupo disponible por EGP", "Simular el impacto de una operación en la línea", "Recibir alertas de consumo"] },
+    { "id": "reportes", "label": "Reportes", "icon": "ph-chart-bar", "status": "construction", "section": "Análisis",
+      "upcoming": ["Reporte de operaciones por período", "Exportar a Excel y PDF", "Programar envíos por email"] },
+    { "id": "auditoria", "label": "Auditoría", "icon": "ph-clipboard-text", "status": "construction", "section": "Análisis", "roles": ["admin"],
+      "upcoming": ["Trazabilidad de cada cambio de estado", "Filtrar por usuario y fecha", "Exportar evidencia para control interno"] },
+    { "id": "configuracion", "label": "Configuración", "icon": "ph-gear", "status": "construction", "section": "Administración", "roles": ["admin"],
+      "upcoming": ["Parametrizar tasas y plazos", "Definir circuitos de aprobación", "Configurar notificaciones"] },
+    { "id": "ayuda", "label": "Centro de ayuda", "icon": "ph-question", "href": "https://github.com/marianaybanezintive-cmd/atlas-confirming-poc/blob/main/docs/manual-usuario.md", "section": "Administración" }
+  ],
+  "notifications": [
+    { "title": "3 facturas pendientes de aprobación", "text": "Retail S.A. cargó nuevas facturas hoy." },
+    { "title": "Desembolso acreditado", "text": "Factura 001-002-0005001 · Tigo Paraguay." }
+  ],
+  "demo": {
+    "scenarios": [
+      { "label": "Financiar una factura habilitada", "description": "Proveedor solicita el adelanto", "route": "facturas", "user": "proveedor@demo.bancoatlas.com", "hint": "Elegí una factura en estado Habilitada y tocá Financiar." },
+      { "label": "Aprobar como empresa pagadora", "description": "EGP aprueba facturas pendientes", "route": "facturas", "user": "egp@demo.bancoatlas.com" }
+    ]
+  },
+  "firebase": {
+    "apiKey": "<de la consola de Firebase>",
+    "authDomain": "<proyecto>.firebaseapp.com",
+    "projectId": "<proyecto>",
+    "storageBucket": "<proyecto>.appspot.com",
+    "messagingSenderId": "<número>",
+    "appId": "<app id>"
+  }
+}

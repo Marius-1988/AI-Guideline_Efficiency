@@ -13,6 +13,7 @@ Cada subcarpeta es un **agente** usable desde Cursor (skill) o desde la línea d
 | [jira-stories-to-architecture](jira-stories-to-architecture/) | Historias Jira → paquete de arquitectura (C4, ER, APIs, Mermaid + PNG) |
 | [po-architect-agent](po-architect-agent/) | Alex: persona PO + Arquitecto SR con menú; delega en jira-stories-to-architecture |
 | [miro-story-mapping](miro-story-mapping/) | Historias de usuario o análisis → Story Mapping en Miro (tablero nuevo o existente, sin pisar contenido; post-its linkeados al MD) |
+| [po-poc-builder](po-poc-builder/) | SR PO + SR BA: descripción del cliente → POC web navegable (login, roles, flujos con datos mockeados, módulos en construcción) en GitHub Pages + Firebase, con manual de uso y flujos funcionales |
 | [sm-mass-clone](sm-mass-clone/) | Clonado masivo de issues Jira (épica/sprint/backlog) con dry-run y reporte |
 | [agent-efficiency-reviewer](agent-efficiency-reviewer/) | Audita agentes nuevos/modificados contra los presupuestos de tokens ([guía](../docs/agent-token-efficiency.md)) |
 

@@ -1,0 +1,7 @@
+{
+  "workspace_root": "%USERPROFILE%/poc-workspaces",
+  "outputs_dir": "AI-Outputs/po-poc-builder",
+  "default_password": "Demo2026!",
+  "pages_wait_seconds": 300,
+  "notes": "workspace_root: carpeta local donde se clonan los repos de cada POC (fuera de AI-Guideline). default_password: contraseña común de los usuarios de prueba."
+}
